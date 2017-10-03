@@ -1,0 +1,118 @@
+---
+title: "STAT253 - Homework#1"
+author: "Sukru Gumustas - 150114032"
+date: "21.03.2017"
+output: word_document
+---
+
+##Answers to the Questions
+
+```{r, echo=FALSE}
+#First, I have to import the file. Before importing the file, I should import the "readr" library. I imported the CSV file by using the menu on the right. I also have to include "MASS" library to draw dotplot.
+library(readr)
+library(MASS)
+fileLocation = "~/R/HW1/HW1_Dataset.csv"
+myDataSet <- read_csv(fileLocation, col_names = FALSE, col_types = cols(X1 = col_double()), skip = 1)
+```
+#a) The mean (x) of the sample. Mean is calculated by using "mean" function in R.
+
+```{r, echo=FALSE}
+meanOfSample = mean(myDataSet$X1)
+meanOfSample
+```
+#b) The variance (s^2) of the sample. It is calculated by using "var" function.
+```{r, echo=FALSE}
+variance = (var(myDataSet$X1)*100)/99
+variance
+```
+#c) The standard deviation is calculated by both ways. First way is taking square root of variance. Second way is using "sd" function. Both calculations are below.
+#SD calculated by variance is
+```{r, echo=FALSE}
+sdFromVariance = variance^(0.5)
+sdFromVariance
+```
+#SD calculated by function is
+```{r, echo=FALSE}
+sdFromFunction = (sd(myDataSet$X1)*10)/(99^(0.5))
+sdFromFunction
+```
+#d) To find lower and upper quartiles, I use "quantile" function.
+#Lower quartile is
+```{r, echo=FALSE}
+lowerQuartile = quantile(myDataSet$X1, probs = 1/4)
+lowerQuartile
+```
+#Upper quartile is
+```{r, echo=FALSE}
+upperQuartile = quantile(myDataSet$X1, probs=3/4)
+upperQuartile
+```
+#e) To find maximum value, we use "max" function; to find minimum value, we use "min" function.
+#Maximum value is
+```{r, echo=FALSE}
+maximumValue = max(myDataSet$X1)
+maximumValue
+```
+#Minimum value is
+```{r, echo=FALSE}
+minimumValue = min(myDataSet$X1)
+minimumValue
+```
+#f) The range is the subtraction of minimum value from the maximum value.
+```{r, echo=FALSE}
+rangeOfSet = maximumValue - minimumValue
+rangeOfSet
+```
+#g) Comparison of range and standard deviation. #There are approximately
+```{r, echo=FALSE}
+howManySDInRange = rangeOfSet/sdFromFunction
+howManySDInRange
+```
+#times standard deviation in range. According to relationship between SD and range, SD = R/4 in small samples and SD = R/6 in big samples which means our sample seems to be a big sample.
+#h) Median can be found by using "median" function.
+```{r, echo=FALSE}
+medianOfSet = median(myDataSet$X1)
+medianOfSet
+```
+#i) There is a special function which is "fivenum" to calculate five-num summary.
+```{r, echo=FALSE}
+fiveNumSummary = fivenum(myDataSet$X1)
+fiveNumSummary
+```
+#j) We use "botplox" function for boxplots.
+```{r, echo=FALSE}
+boxplot(myDataSet$X1, horizontal = TRUE)
+```
+```{r, echo=FALSE}
+```
+#It seems there are outliers, also the data set is right skewed.
+#l) I use "dotchart" function to draw dotplot.
+```{r, echo=FALSE}
+dotchart(myDataSet$X1, cex = 0.75, col="blue", main = "Dataset")
+```
+```{r, echo=FALSE}
+```
+#It seems data set is not mound shaped.
+#m) No we can not because the data set is not regular, it is not normally distributed.
+
+#n) No, we can not use Empirical Rule because the data set is not mound shaped.
+#o) I used several functions to draw relative frequency histogram.
+```{r, echo=FALSE}
+h <- hist(myDataSet$X1, breaks = 100, plot=FALSE)
+h$counts=h$counts/sum(h$counts)
+plot(h, ylab="Relative Frequency", xlab = "My Data Set", main = "Relative Frequency Histogram of My Data Set")
+```
+```{r, echo=FALSE}
+```
+#p) Z-score can be found via formula "(number - mean)/standard deviation".
+#Z-score of maximum value is
+```{r, echo=FALSE}
+zOfMax = (maximumValue - meanOfSample)/sdFromFunction
+zOfMax
+```
+#Z-score of minimum value is
+```{r, echo=FALSE}
+zOfMin = (minimumValue - meanOfSample)/sdFromFunction
+zOfMin
+```
+#If z-score is greater than 3 than the value is outlier, apparently maximum value is outlier.
